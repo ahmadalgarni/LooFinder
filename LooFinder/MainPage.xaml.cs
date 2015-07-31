@@ -98,9 +98,58 @@ namespace LooFinder
                 parseHelper.parseToilets.RemoveRange(0, parseHelper.parseToilets.Count - 1);
             }
 
-            await parseHelper.getNearbyToilets(location);
+            var options = SearchOptions();
+
+            await parseHelper.getNearbyToilets(location, options);
 
             LoosNearbyList.ItemsSource = parseHelper.parseToilets;
+        }
+
+        private Dictionary<String, bool> SearchOptions()
+        {
+            var options = new Dictionary<string, bool>();
+            var maleRequired = false;
+            var femaleRequired = false;
+            var unisexOK = false;
+
+            if(UnisexCheckbox.IsChecked == true)
+            {
+                options.Add("Unisex", true);
+                unisexOK = true;
+            }
+
+            if(MaleCheckbox.IsChecked == true)
+            {
+                options.Add("Male", true);
+                maleRequired = true;
+            } 
+
+            if (FemaleCheckbox.IsChecked == true)
+            {
+                options.Add("Female", true);
+                femaleRequired = true;
+            }
+
+            if (AccessibleCheckbox.IsChecked == true)
+            {
+                if (maleRequired)
+                {
+                    options.Add("AccessibleMale", true);
+                } 
+
+                if(femaleRequired)
+                {
+                    options.Add("AccessibleFemale", true);
+                }
+
+                if (unisexOK)
+                {
+                    options.Add("AccessibleUnisex", true);
+                }
+
+            }
+
+            return options;
         }
 
         private async void getToilet()

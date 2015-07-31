@@ -81,10 +81,10 @@
                         RelativePanel.Below="SearchBar"
                         RelativePanel.AlignHorizontalCenterWithPanel="True"
                         >
-                <CheckBox IsChecked="True" Margin="10,0,-15,0">Accessible</CheckBox>
-                <CheckBox IsChecked="True" Margin="0,0,-35,0">Female</CheckBox>
-                <CheckBox IsChecked="True" Margin="0,0,-50,0">Male</CheckBox>
-                <CheckBox IsChecked="True" Margin="0">Showers</CheckBox>
+                <CheckBox x:Name="AccessibleCheckbox" Margin="10,0,2,0">Accessible Only</CheckBox>
+                <CheckBox x:Name="FemaleCheckbox" IsChecked="True" Margin="0,0,-35,0">Female</CheckBox>
+                <CheckBox x:Name="MaleCheckbox" IsChecked="True" Margin="0,0,-50,0">Male</CheckBox>
+                <CheckBox x:Name="UnisexCheckbox" IsChecked="True" Margin="0">Unisex</CheckBox>
             </StackPanel>
         </RelativePanel>
 
