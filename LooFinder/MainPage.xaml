@@ -1,0 +1,117 @@
+﻿<Page
+    x:Class="LooFinder.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:local="using:LooFinder"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:m="using:LooFinder.Models"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    
+    <Page.Resources>
+       
+        
+        <DataTemplate x:Key="DetailContentView" x:DataType="m:Toilet" x:Name="LooDetailContentView">
+           
+            <StackPanel x:Name="LooStack" Margin="10,0,10,0">
+                <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="{x:Bind ToiletName}"></TextBlock>
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ToiletAddress}"></TextBlock>
+                <TextBlock Text="{x:Bind distanceFromSearchPoint}"></TextBlock>
+
+                <Maps:MapControl Loaded="MapControl_Loaded" ZoomLevel="16" Visibility="Visible" x:Name="LooLocationMap" Height="200" Width="auto" BusinessLandmarksVisible="True" LandmarksVisible="True" TrafficFlowVisible="True" PedestrianFeaturesVisible="True" ZoomInteractionMode="GestureAndControl" MapServiceToken=" HLl6ZgVpIXhxuzLXUX1k~4Eqz-dELWxLt6ir81Hfwcg~AnWeePN5PJMKJV0XN0JUj5YV0BTPaZfdLGKDfKi54EsdXu5PHRFHQNnzzPe4vs_J">
+                </Maps:MapControl>
+
+            </StackPanel>
+           
+        </DataTemplate>
+    </Page.Resources>
+ 
+    <Grid x:Name="ContentGrid"
+              RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignRightWithPanel="True"
+              RelativePanel.AlignBottomWithPanel="True"
+              RelativePanel.Below="LooLocationText">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="AdaptiveStates"
+                              CurrentStateChanged="AdaptiveStates_CurrentStateChanged">
+                <VisualState x:Name="DefaultState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="720"></AdaptiveTrigger>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DetailViewColumn.Width" Value="60*"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"></AdaptiveTrigger>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="DetailViewColumn.Width" Value="0"></Setter>
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="ListView" Width="40*"></ColumnDefinition>
+            <ColumnDefinition x:Name="DetailViewColumn" Width="60*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="15"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <RelativePanel Background="Orange" Grid.Row="0" Grid.ColumnSpan="2">
+            <StackPanel x:Name="SearchBar" Orientation="Horizontal"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        RelativePanel.AlignTopWithPanel="True">
+            <TextBox x:Name="LocationSearchbox" KeyUp="LocationSearchbox_KeyUp" MinWidth="300" PlaceholderText="Search" Margin="0,5,5,5">
+            </TextBox>
+            <Button>
+                <SymbolIcon Symbol="Find"></SymbolIcon>
+            </Button>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Column="0"
+                        RelativePanel.Below="SearchBar"
+                        RelativePanel.AlignHorizontalCenterWithPanel="True"
+                        >
+                <CheckBox IsChecked="True" Margin="10,0,-15,0">Accessible</CheckBox>
+                <CheckBox IsChecked="True" Margin="0,0,-35,0">Female</CheckBox>
+                <CheckBox IsChecked="True" Margin="0,0,-50,0">Male</CheckBox>
+                <CheckBox IsChecked="True" Margin="0">Showers</CheckBox>
+            </StackPanel>
+        </RelativePanel>
+
+        <ListView Grid.Row="1" x:Name="LoosNearbyList" IsItemClickEnabled="True" ItemClick="LoosNearbyList_ItemClick">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="m:Toilet">
+                    <StackPanel>
+                        <TextBlock Text="{x:Bind ToiletName}"></TextBlock>
+                        <TextBlock Text="{x:Bind ToiletAddress}"></TextBlock>
+                        <TextBlock Text="{x:Bind distanceFromSearchPoint}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <ScrollViewer Grid.Column="2" Grid.Row="1"> 
+            <ContentPresenter x:Name="LooDetailContentPresenter" ContentTemplate="{StaticResource DetailContentView}" Content="{x:Bind LoosNearbyList.SelectedItem, Mode=OneWay}" Visibility="Collapsed">  
+            </ContentPresenter>
+        </ScrollViewer>
+
+        <TextBlock x:Name="DataCopyrightMessage" 
+                       Grid.Row="2"
+                       Grid.ColumnSpan="2"
+                       FontSize="10"
+                       Margin="10,0,0,0">
+        </TextBlock>
+
+    </Grid>
+
+</Page>

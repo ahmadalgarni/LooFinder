@@ -1,0 +1,24 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LooFinder"
+    xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:m="using:LooFinder.Models"
+    x:Class="LooFinder.DataTemplates">
+
+    <DataTemplate x:Key="DetailContentView">
+
+        <StackPanel x:Name="LooStack" Margin="10,0,10,0">
+            <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="{Binding ToiletName}"></TextBlock>
+            <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{Binding ToiletAddress}"></TextBlock>
+            <TextBlock Text="{Binding distanceFromSearchPoint}">hi</TextBlock>
+
+            <Maps:MapControl Loaded="LooLocationMap_Loaded"  ZoomLevel="16" Visibility="Visible" x:Name="LooLocationMap" Height="200" Width="auto" BusinessLandmarksVisible="True" LandmarksVisible="True" TrafficFlowVisible="True" PedestrianFeaturesVisible="True" ZoomInteractionMode="GestureAndControl" MapServiceToken=" HLl6ZgVpIXhxuzLXUX1k~4Eqz-dELWxLt6ir81Hfwcg~AnWeePN5PJMKJV0XN0JUj5YV0BTPaZfdLGKDfKi54EsdXu5PHRFHQNnzzPe4vs_J">
+            </Maps:MapControl>
+
+        </StackPanel>
+
+    </DataTemplate>
+    
+</ResourceDictionary>
