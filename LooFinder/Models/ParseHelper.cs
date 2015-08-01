@@ -37,16 +37,11 @@ namespace LooFinder.Models
             }
         }
 
-        public async Task getNearbyToilets(ParseGeoPoint location, Dictionary<String, bool> options)
+        public async Task getNearbyToilets(ParseGeoPoint location)
         {
 
             var query = new ParseQuery<Toilet>();
             query = query.WhereNear("Location", location);
-
-            foreach (KeyValuePair<String, bool> entry in options) {
-                query = query.WhereEqualTo(entry.Key, entry.Value);
-            }
-            
             query = query.Limit(10);
             IEnumerable<Toilet> result = await query.FindAsync();
             _parseToilets = result.ToList();
@@ -65,6 +60,7 @@ namespace LooFinder.Models
             }
             catch (Exception e)
             {
+                System.Diagnostics.Debug.WriteLine(e.Message);
                 config = ParseConfig.CurrentConfig;
             }
 

@@ -61,7 +61,7 @@
             <ColumnDefinition x:Name="DetailViewColumn" Width="60*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="43"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="15"></RowDefinition>
         </Grid.RowDefinitions>
@@ -70,21 +70,11 @@
             <StackPanel x:Name="SearchBar" Orientation="Horizontal"
                         RelativePanel.AlignHorizontalCenterWithPanel="True"
                         RelativePanel.AlignTopWithPanel="True">
-            <TextBox x:Name="LocationSearchbox" KeyUp="LocationSearchbox_KeyUp" MinWidth="300" PlaceholderText="Search" Margin="0,5,5,5">
-            </TextBox>
-            <Button>
-                <SymbolIcon Symbol="Find"></SymbolIcon>
-            </Button>
-            </StackPanel>
-
-            <StackPanel Orientation="Horizontal" Grid.Column="0"
-                        RelativePanel.Below="SearchBar"
-                        RelativePanel.AlignHorizontalCenterWithPanel="True"
-                        >
-                <CheckBox x:Name="AccessibleCheckbox" Margin="10,0,2,0">Accessible Only</CheckBox>
-                <CheckBox x:Name="FemaleCheckbox" IsChecked="True" Margin="0,0,-35,0">Female</CheckBox>
-                <CheckBox x:Name="MaleCheckbox" IsChecked="True" Margin="0,0,-50,0">Male</CheckBox>
-                <CheckBox x:Name="UnisexCheckbox" IsChecked="True" Margin="0">Unisex</CheckBox>
+                <TextBox x:Name="LocationSearchbox" KeyUp="LocationSearchbox_KeyUp" MinWidth="300" PlaceholderText="Search" Margin="0,5,5,5">
+                </TextBox>
+                <Button Click="Button_Click">
+                    <SymbolIcon Symbol="Find"></SymbolIcon>
+                </Button>
             </StackPanel>
         </RelativePanel>
 

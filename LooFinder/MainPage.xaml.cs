@@ -78,7 +78,10 @@ namespace LooFinder
             switch(accessStatus)
             {
                 case GeolocationAccessStatus.Allowed:
-                    await ReverseGeocodedSearch();
+                    Geolocator locator = new Geolocator{ DesiredAccuracyInMeters = 10 };
+                    Geoposition pos = await locator.GetGeopositionAsync();
+
+                    await ReverseGeocodedSearch(pos);
                     GetGeocodedSearch();
                     break;
                 case GeolocationAccessStatus.Denied:
@@ -98,66 +101,9 @@ namespace LooFinder
                 parseHelper.parseToilets.RemoveRange(0, parseHelper.parseToilets.Count - 1);
             }
 
-            var options = SearchOptions();
-
-            await parseHelper.getNearbyToilets(location, options);
+            await parseHelper.getNearbyToilets(location);
 
             LoosNearbyList.ItemsSource = parseHelper.parseToilets;
-        }
-
-        private Dictionary<String, bool> SearchOptions()
-        {
-            var options = new Dictionary<string, bool>();
-            var maleRequired = false;
-            var femaleRequired = false;
-            var unisexOK = false;
-
-            if(UnisexCheckbox.IsChecked == true)
-            {
-                options.Add("Unisex", true);
-                unisexOK = true;
-            }
-
-            if(MaleCheckbox.IsChecked == true)
-            {
-                options.Add("Male", true);
-                maleRequired = true;
-            } 
-
-            if (FemaleCheckbox.IsChecked == true)
-            {
-                options.Add("Female", true);
-                femaleRequired = true;
-            }
-
-            if (AccessibleCheckbox.IsChecked == true)
-            {
-                if (maleRequired)
-                {
-                    options.Add("AccessibleMale", true);
-                } 
-
-                if(femaleRequired)
-                {
-                    options.Add("AccessibleFemale", true);
-                }
-
-                if (unisexOK)
-                {
-                    options.Add("AccessibleUnisex", true);
-                }
-
-            }
-
-            return options;
-        }
-
-        private async void getToilet()
-        {
-            ParseQuery<ParseObject> query = ParseObject.GetQuery("Toilet");
-            ParseObject toilet = await query.GetAsync("chPrYKjro9");
-            String toiletName = toilet.Get<String>("Name");
-            System.Diagnostics.Debug.WriteLine(toiletName);
         }
 
         private async void getDataCopyrightMessage()
@@ -181,11 +127,11 @@ namespace LooFinder
             }
         }
 
-        private async Task ReverseGeocodedSearch()
+        private async Task ReverseGeocodedSearch(Geoposition pos)
         {
             BasicGeoposition location = new BasicGeoposition();
-            location.Latitude = 47.643;
-            location.Longitude = -122.131;
+            location.Latitude = pos.Coordinate.Point.Position.Latitude;
+            location.Longitude = pos.Coordinate.Point.Position.Longitude;
             Geopoint pointToReverseGeocode = new Geopoint(location);
 
             MapLocationFinderResult result = await MapLocationFinder.FindLocationsAtAsync(
@@ -215,7 +161,7 @@ namespace LooFinder
            
         }
 
-        private async void MapControl_Loaded(object sender, RoutedEventArgs e)
+        private void MapControl_Loaded(object sender, RoutedEventArgs e)
         {
             //We know this will only be called when a detail item has been clicked
             detailMap = (MapControl)sender;
@@ -247,17 +193,24 @@ namespace LooFinder
             //detailMap.Children.Add(lastMapPin);
         }
 
-        private void AdaptiveStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
-        {
-
-        }
-
         private void LocationSearchbox_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
             {
                 GetGeocodedSearch();
             }
+        }
+
+        private void AdaptiveStates_CurrentStateChanged(object sender, VisualStateChangedEventArgs e)
+        { 
+ 
+ 
+        } 
+
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            GetGeocodedSearch();
         }
     }
 }
