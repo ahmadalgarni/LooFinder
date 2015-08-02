@@ -206,6 +206,22 @@ namespace LooFinder.Models
             set { SetProperty<string>(value); }
         }
 
+        public string getFemale
+        {
+            get
+            {
+                var result = Female;
+                if (result)
+                {
+                    return "Yes";
+                }
+                else
+                {
+                    return "No";
+                }
+            }
+        }
+
         [ParseFieldName("Female")]
         public bool Female
         {
@@ -246,6 +262,22 @@ namespace LooFinder.Models
         {
             get { return GetProperty<bool>(); }
             set { SetProperty<bool>(value); }
+        }
+
+        public string getMale
+        {
+            get
+            {
+                var result = Male;
+                if (result)
+                {
+                    return "Yes";
+                }
+                else
+                {
+                    return "No";
+                }
+            }
         }
 
         [ParseFieldName("Male")]
@@ -372,6 +404,22 @@ namespace LooFinder.Models
         {
             get { return GetProperty<string>(); }
             set { SetProperty<string>(value); }
+        }
+
+        public string getUnisex
+        {
+            get
+            {
+                var result = Unisex;
+                if (result)
+                {
+                    return "Yes";
+                }
+                else
+                {
+                    return "No";
+                }
+            }
         }
 
         [ParseFieldName("Unisex")]

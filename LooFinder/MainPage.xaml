@@ -22,7 +22,38 @@
                 <Maps:MapControl Margin="-10,0,-10,0" Loaded="MapControl_Loaded" ZoomLevel="16" Visibility="Visible" x:Name="LooLocationMap" Height="200" Width="auto" BusinessLandmarksVisible="True" LandmarksVisible="True" TrafficFlowVisible="True" PedestrianFeaturesVisible="True" ZoomInteractionMode="GestureAndControl" MapServiceToken=" HLl6ZgVpIXhxuzLXUX1k~4Eqz-dELWxLt6ir81Hfwcg~AnWeePN5PJMKJV0XN0JUj5YV0BTPaZfdLGKDfKi54EsdXu5PHRFHQNnzzPe4vs_J">
                 </Maps:MapControl>
 
-                <TextBlock Text="{x:Bind getAccessibilityStatus}"></TextBlock>
+                <TextBlock Text="Facilities" Style="{StaticResource ToiletCellSubtitle}"></TextBlock>
+                <TextBlock Margin="5,0,0,5">
+                    <TextBlock.Inlines>
+                        <Run FontWeight="Bold" Text="Male: "></Run>
+                        <Run Text="{x:Bind getMale}"></Run>
+                    </TextBlock.Inlines>
+                </TextBlock>
+
+                <TextBlock Margin="5,0,0,5">
+                    <TextBlock.Inlines>
+                        <Run FontWeight="Bold" Text="Female: "></Run>
+                        <Run Text="{x:Bind getFemale}"></Run>
+                    </TextBlock.Inlines>
+                </TextBlock>
+
+                <TextBlock Margin="5,0,0,5">
+                    <TextBlock.Inlines>
+                        <Run FontWeight="Bold" Text="Unisex: "></Run>
+                        <Run Text="{x:Bind getUnisex}"></Run>
+                    </TextBlock.Inlines>
+                </TextBlock>
+
+
+                <TextBlock Text="Accessibility" Style="{StaticResource ToiletCellSubtitle}"></TextBlock>
+                <TextBlock Margin="5,0,0,5">
+                    <TextBlock.Inlines>
+                        <Run FontWeight="Bold" Text="Accessible: "></Run>
+                        <Run Text="{x:Bind getAccessibilityStatus}"></Run>
+                    </TextBlock.Inlines>
+                </TextBlock>
+
+
 
             </StackPanel>
            
