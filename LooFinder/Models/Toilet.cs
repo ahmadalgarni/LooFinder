@@ -111,11 +111,50 @@ namespace LooFinder.Models
             set { SetProperty<bool>(value); }
         }
 
-        [ParseFieldName("AccessbileMale")]
+        [ParseFieldName("AccessibleMale")]
         public bool AccessibleMale
         {
             get { return GetProperty<bool>(); }
             set { SetProperty<bool>(value); }
+        }
+
+        public String getAccessibilityStatus
+        {
+            get
+            {
+                var status = "No facilities";
+                List<String> genderStatus = new List<String>();
+
+                if (AccessibleFemale)
+                {
+                    genderStatus.Add("Female");
+                }
+
+                if (AccessibleMale)
+                {
+                    genderStatus.Add("Male");
+                }
+
+                if (AccessibleUnisex)
+                {
+                    genderStatus.Add("Unisex");
+                }
+
+                for (var i = 0; i < genderStatus.Count; i++)
+                {
+                    if (i > 0)
+                    {
+                        status += ", " + genderStatus[i];
+                    }
+                    else
+                    {
+                        status = genderStatus[i];
+                    }
+
+                }
+
+                return status + " available";
+            }
         }
 
         [ParseFieldName("AccessibleNote")]

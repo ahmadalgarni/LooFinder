@@ -36,6 +36,7 @@ namespace LooFinder
         private ParseHelper parseHelper;
         private MapControl _detailMap;
         private MapIcon lastMapPin;
+        private String previousText;
         private ParseGeoPoint currentLocation;
         private MapControl detailMap
         {
@@ -130,16 +131,20 @@ namespace LooFinder
 
         private async void GetGeocodedSearch()
         {
-            MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(
-                LocationSearchbox.Text,
-                null,
-                1
-                );
-
-            if(result.Status == MapLocationFinderStatus.Success)
+            if (previousText != LocationSearchbox.Text)
             {
-                ParseGeoPoint location = new ParseGeoPoint(result.Locations[0].Point.Position.Latitude, result.Locations[0].Point.Position.Longitude);
-                findNearbyToilets(location, false);
+                previousText = LocationSearchbox.Text;
+                MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(
+                    LocationSearchbox.Text,
+                    null,
+                    1
+                    );
+
+                if (result.Status == MapLocationFinderStatus.Success)
+                {
+                    ParseGeoPoint location = new ParseGeoPoint(result.Locations[0].Point.Position.Latitude, result.Locations[0].Point.Position.Longitude);
+                    findNearbyToilets(location, false);
+                }
             }
         }
 

@@ -15,12 +15,14 @@
         <DataTemplate x:Key="DetailContentView" x:DataType="m:Toilet" x:Name="LooDetailContentView">
            
             <StackPanel x:Name="LooStack" Margin="10,0,10,0">
-                <TextBlock Style="{ThemeResource TitleTextBlockStyle}" Text="{x:Bind ToiletName}"></TextBlock>
-                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind ToiletAddress}"></TextBlock>
-                <TextBlock Text="{x:Bind distanceFromSearchPoint}"></TextBlock>
-
-                <Maps:MapControl Loaded="MapControl_Loaded" ZoomLevel="16" Visibility="Visible" x:Name="LooLocationMap" Height="200" Width="auto" BusinessLandmarksVisible="True" LandmarksVisible="True" TrafficFlowVisible="True" PedestrianFeaturesVisible="True" ZoomInteractionMode="GestureAndControl" MapServiceToken=" HLl6ZgVpIXhxuzLXUX1k~4Eqz-dELWxLt6ir81Hfwcg~AnWeePN5PJMKJV0XN0JUj5YV0BTPaZfdLGKDfKi54EsdXu5PHRFHQNnzzPe4vs_J">
+                <TextBlock Style="{ThemeResource ToiletCellHeading}" Text="{x:Bind ToiletName}"></TextBlock>
+                <TextBlock Style="{ThemeResource ToiletCellDistance}" Text="{x:Bind distanceFromSearchPoint}"></TextBlock>
+                <TextBlock Style="{ThemeResource ToiletCellAddress}" Text="{x:Bind ToiletAddress}"></TextBlock>
+                
+                <Maps:MapControl Margin="-10,0,-10,0" Loaded="MapControl_Loaded" ZoomLevel="16" Visibility="Visible" x:Name="LooLocationMap" Height="200" Width="auto" BusinessLandmarksVisible="True" LandmarksVisible="True" TrafficFlowVisible="True" PedestrianFeaturesVisible="True" ZoomInteractionMode="GestureAndControl" MapServiceToken=" HLl6ZgVpIXhxuzLXUX1k~4Eqz-dELWxLt6ir81Hfwcg~AnWeePN5PJMKJV0XN0JUj5YV0BTPaZfdLGKDfKi54EsdXu5PHRFHQNnzzPe4vs_J">
                 </Maps:MapControl>
+
+                <TextBlock Text="{x:Bind getAccessibilityStatus}"></TextBlock>
 
             </StackPanel>
            
