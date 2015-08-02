@@ -36,15 +36,23 @@ namespace LooFinder.Models
             set
             {
                 _searchLocationPoint = value;
-                this.distanceFromSearchPoint = 0.0;
+                this.distanceFromSearchPoint = "";
             }
         }
         private double _distanceFromSearchPoint;
-        public double distanceFromSearchPoint
+        public string distanceFromSearchPoint
         {
             get 
             {
-                return _distanceFromSearchPoint;
+                var distanceRounded = Math.Round(_distanceFromSearchPoint, 2);
+
+                if (distanceRounded < 1) {
+                    //Less than 1km away
+                    return distanceRounded * 1000 + "m";
+                }
+                else {
+                    return distanceRounded + "km";
+                }
             }
             set
             {

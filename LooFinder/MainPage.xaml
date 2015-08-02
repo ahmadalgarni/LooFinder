@@ -78,13 +78,13 @@
             </StackPanel>
         </RelativePanel>
 
-        <ListView Grid.Row="1" x:Name="LoosNearbyList" IsItemClickEnabled="True" ItemClick="LoosNearbyList_ItemClick">
+        <ListView Loaded="LoosNearbyList_Loaded" Grid.Row="1" x:Name="LoosNearbyList" IsItemClickEnabled="True" ItemClick="LoosNearbyList_ItemClick">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="m:Toilet">
                     <StackPanel>
-                        <TextBlock Text="{x:Bind ToiletName}"></TextBlock>
-                        <TextBlock Text="{x:Bind ToiletAddress}"></TextBlock>
-                        <TextBlock Text="{x:Bind distanceFromSearchPoint}"></TextBlock>
+                        <TextBlock Text="{x:Bind ToiletName}" Style="{StaticResource ToiletCellHeading}"></TextBlock>
+                        <TextBlock Text="{x:Bind distanceFromSearchPoint}" Style="{StaticResource ToiletCellDistance}"></TextBlock>
+                        <TextBlock Text="{x:Bind ToiletAddress}" Style="{StaticResource ToiletCellAddress}"></TextBlock>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>

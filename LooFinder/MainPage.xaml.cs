@@ -32,9 +32,11 @@ namespace LooFinder
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private ScrollViewer ListViewScrollView;
         private ParseHelper parseHelper;
         private MapControl _detailMap;
         private MapIcon lastMapPin;
+        private ParseGeoPoint currentLocation;
         private MapControl detailMap
         {
             get
@@ -56,7 +58,7 @@ namespace LooFinder
             this.InitializeComponent();
             parseHelper = ParseHelper.Instance;
             getDataCopyrightMessage();
-
+                 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Collapsed;
 
             if(parseHelper.parseToilets.Count < 1)
@@ -69,6 +71,18 @@ namespace LooFinder
 
             CheckForGeolocation();
 
+        }
+
+        private void ScrollView_OnViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            var verticalOffsetValue = ListViewScrollView.VerticalOffset;
+            var maxVerticalOffset = ListViewScrollView.ExtentHeight - ListViewScrollView.ViewportHeight;
+
+            if(maxVerticalOffset < 0 || verticalOffsetValue == maxVerticalOffset)
+            {
+                //Scrolled to bottom
+                findNearbyToilets(currentLocation, true);
+            }
         }
 
         private async void CheckForGeolocation()
@@ -93,17 +107,19 @@ namespace LooFinder
             }
         }
 
-        private async void findNearbyToilets(ParseGeoPoint location)
+        private async void findNearbyToilets(ParseGeoPoint location, Boolean shouldSkip)
         {
-            //remove existing loos from different location 
-            if (parseHelper.parseToilets.Count > 0)
+            currentLocation = location;
+
+            if (shouldSkip)
             {
-                parseHelper.parseToilets.RemoveRange(0, parseHelper.parseToilets.Count - 1);
+                await parseHelper.getNearbyToilets(location, shouldSkip);
+            } else
+            {
+                await parseHelper.getNearbyToilets(location, shouldSkip);
+                LoosNearbyList.ItemsSource = parseHelper.parseToilets;
             }
-
-            await parseHelper.getNearbyToilets(location);
-
-            LoosNearbyList.ItemsSource = parseHelper.parseToilets;
+         
         }
 
         private async void getDataCopyrightMessage()
@@ -123,7 +139,7 @@ namespace LooFinder
             if(result.Status == MapLocationFinderStatus.Success)
             {
                 ParseGeoPoint location = new ParseGeoPoint(result.Locations[0].Point.Position.Latitude, result.Locations[0].Point.Position.Longitude);
-                findNearbyToilets(location);
+                findNearbyToilets(location, false);
             }
         }
 
@@ -211,6 +227,12 @@ namespace LooFinder
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             GetGeocodedSearch();
+        }
+
+        private void LoosNearbyList_Loaded(object sender, RoutedEventArgs e)
+        {
+            ListViewScrollView = (ScrollViewer)VisualTreeHelper.GetChild(VisualTreeHelper.GetChild(this.LoosNearbyList, 0), 0);
+            ListViewScrollView.ViewChanged += ScrollView_OnViewChanged;
         }
     }
 }

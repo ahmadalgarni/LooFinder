@@ -1,6 +1,7 @@
 ﻿using Parse;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,14 +11,16 @@ namespace LooFinder.Models
     public sealed class ParseHelper
     {
         ParseConfig config = null;
+        ParseGeoPoint currentLocation;
         static ParseHelper instance=null;
         const string toiletModelName = "Toilet";
-        private List<Toilet> _parseToilets = new List<Toilet>();
+        private ObservableCollection<Toilet> _parseToilets = new ObservableCollection<Toilet>();
+        private int skipCount = 0;
 
-        public List<Toilet> parseToilets {
+        public ObservableCollection<Toilet> parseToilets {
             get
             {
-                return this._parseToilets;
+                return _parseToilets;
             }
         }
 
@@ -37,14 +40,35 @@ namespace LooFinder.Models
             }
         }
 
-        public async Task getNearbyToilets(ParseGeoPoint location)
+        public async Task getNearbyToilets(ParseGeoPoint location, Boolean shouldSkip)
         {
+            if (currentLocation.Latitude != location.Latitude || currentLocation.Longitude != location.Longitude)
+            {
+                //New location, so empty data
+                _parseToilets.Clear();
+                currentLocation = location;
+            } 
 
             var query = new ParseQuery<Toilet>();
             query = query.WhereNear("Location", location);
-            query = query.Limit(10);
+            query = query.Limit(20);
+
+            if (shouldSkip)
+            {
+                query = query.Skip(skipCount);
+                skipCount += 20;
+            }
+
             IEnumerable<Toilet> result = await query.FindAsync();
-            _parseToilets = result.ToList();
+
+            if (shouldSkip)
+            {
+                result.ToList().ForEach(_parseToilets.Add);
+            } else
+            {
+                _parseToilets.Clear();
+                result.ToList().ForEach(_parseToilets.Add);
+            }
 
             foreach (Toilet toilet in _parseToilets)
             {
