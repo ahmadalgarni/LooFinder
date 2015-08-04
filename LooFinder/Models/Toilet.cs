@@ -12,9 +12,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
+using Windows.UI.Xaml;
 
 namespace LooFinder.Models
 {
+
     [ParseClassName("Toilet")]
     public class Toilet : ParseObject
     {
@@ -478,6 +480,8 @@ namespace LooFinder.Models
             return pin;
 
         }
+
+        
 
     }
 }

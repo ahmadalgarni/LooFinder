@@ -27,6 +27,27 @@ using Windows.Devices.Geolocation;
 
 namespace LooFinder
 {
+
+    public class LengthToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            string text = (string)value;
+
+            if(value == null)
+            {
+                return Visibility.Collapsed;
+            }
+
+            return text.Length > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -175,12 +196,13 @@ namespace LooFinder
 
             if (detailMap != null)
             {
-
                 SetToiletMap(e.ClickedItem);
                 
             } 
            
         }
+
+        
 
         private void MapControl_Loaded(object sender, RoutedEventArgs e)
         {

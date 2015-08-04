@@ -7,18 +7,20 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:m="using:LooFinder.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:LooFinder"
     mc:Ignorable="d">
     
     <Page.Resources>
-       
-        
+
+        <converter:LengthToVisibilityConverter x:Key="visibilityConverter"></converter:LengthToVisibilityConverter>
+
         <DataTemplate x:Key="DetailContentView" x:DataType="m:Toilet" x:Name="LooDetailContentView">
-           
+
             <StackPanel x:Name="LooStack" Margin="10,0,10,0">
                 <TextBlock Style="{ThemeResource ToiletCellHeading}" Text="{x:Bind ToiletName}"></TextBlock>
                 <TextBlock Style="{ThemeResource ToiletCellDistance}" Text="{x:Bind distanceFromSearchPoint}"></TextBlock>
                 <TextBlock Style="{ThemeResource ToiletCellAddress}" Text="{x:Bind ToiletAddress}"></TextBlock>
-                
+
                 <Maps:MapControl Margin="-10,0,-10,0" Loaded="MapControl_Loaded" ZoomLevel="16" Visibility="Visible" x:Name="LooLocationMap" Height="200" Width="auto" BusinessLandmarksVisible="True" LandmarksVisible="True" TrafficFlowVisible="True" PedestrianFeaturesVisible="True" ZoomInteractionMode="GestureAndControl" MapServiceToken=" HLl6ZgVpIXhxuzLXUX1k~4Eqz-dELWxLt6ir81Hfwcg~AnWeePN5PJMKJV0XN0JUj5YV0BTPaZfdLGKDfKi54EsdXu5PHRFHQNnzzPe4vs_J">
                 </Maps:MapControl>
 
@@ -44,8 +46,14 @@
                     </TextBlock.Inlines>
                 </TextBlock>
 
+                <UserControl>
+                    <UserControl.Resources>
+                        <local:LengthToVisibilityConverter x:Key="LengthToVisibilityConverter"></local:LengthToVisibilityConverter>
+                    </UserControl.Resources>
+                </UserControl>
 
                 <TextBlock Text="Accessibility" Style="{StaticResource ToiletCellSubtitle}"></TextBlock>
+                <TextBlock Margin="5,0,0,5" Text="{x:Bind AccessibleNote}" Visibility="{x:Bind AccessibleNote, Converter={StaticResource visibilityConverter}}" TextWrapping="WrapWholeWords"></TextBlock>
                 <TextBlock Margin="5,0,0,5">
                     <TextBlock.Inlines>
                         <Run FontWeight="Bold" Text="Accessible: "></Run>
@@ -56,7 +64,7 @@
 
 
             </StackPanel>
-           
+
         </DataTemplate>
     </Page.Resources>
  

@@ -20,7 +20,6 @@
 
     <Style x:Key="ToiletCellSubtitle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="15"></Setter>
-        <Setter Property="Foreground" Value="Orange"></Setter>
         <Setter Property="FontWeight" Value="Bold"></Setter>
         <Setter Property="Margin" Value="0,10,0,10"></Setter>
     </Style>

@@ -16,7 +16,7 @@ namespace LooFinder.Models
         const string toiletModelName = "Toilet";
         private ObservableCollection<Toilet> _parseToilets = new ObservableCollection<Toilet>();
         private int skipCount = 20;
-
+       
         public ObservableCollection<Toilet> parseToilets {
             get
             {
