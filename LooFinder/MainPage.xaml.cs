@@ -48,6 +48,27 @@ namespace LooFinder
         }
 
     }
+
+    public class BooleanToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            bool boolValue = (bool)value;
+
+            if (value == null)
+            {
+                return Visibility.Collapsed;
+            }
+
+            return boolValue ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
@@ -152,7 +173,7 @@ namespace LooFinder
 
         private async void GetGeocodedSearch()
         {
-            if (previousText != LocationSearchbox.Text)
+            if (previousText != LocationSearchbox.Text && LocationSearchbox.Text.Length > 0)
             {
                 previousText = LocationSearchbox.Text;
                 MapLocationFinderResult result = await MapLocationFinder.FindLocationsAsync(

@@ -13,10 +13,18 @@
     <Page.Resources>
 
         <converter:LengthToVisibilityConverter x:Key="visibilityConverter"></converter:LengthToVisibilityConverter>
+        <converter:BooleanToVisibilityConverter x:Key="boolVisibilityConverter"></converter:BooleanToVisibilityConverter>
 
         <DataTemplate x:Key="DetailContentView" x:DataType="m:Toilet" x:Name="LooDetailContentView">
 
             <StackPanel x:Name="LooStack" Margin="10,0,10,0">
+                <UserControl>
+                    <UserControl.Resources>
+                        <local:LengthToVisibilityConverter x:Key="LengthToVisibilityConverter"></local:LengthToVisibilityConverter>
+                        <local:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"></local:BooleanToVisibilityConverter>
+                    </UserControl.Resources>
+                </UserControl>
+                
                 <TextBlock Style="{ThemeResource ToiletCellHeading}" Text="{x:Bind ToiletName}"></TextBlock>
                 <TextBlock Style="{ThemeResource ToiletCellDistance}" Text="{x:Bind distanceFromSearchPoint}"></TextBlock>
                 <TextBlock Style="{ThemeResource ToiletCellAddress}" Text="{x:Bind ToiletAddress}"></TextBlock>
@@ -25,6 +33,7 @@
                 </Maps:MapControl>
 
                 <TextBlock Text="Facilities" Style="{StaticResource ToiletCellSubtitle}"></TextBlock>
+                <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="5,0,0,5">
                     <TextBlock.Inlines>
                         <Run FontWeight="Bold" Text="Male: "></Run>
@@ -46,21 +55,25 @@
                     </TextBlock.Inlines>
                 </TextBlock>
 
-                <UserControl>
-                    <UserControl.Resources>
-                        <local:LengthToVisibilityConverter x:Key="LengthToVisibilityConverter"></local:LengthToVisibilityConverter>
-                    </UserControl.Resources>
-                </UserControl>
+                </StackPanel>
+
+                
 
                 <TextBlock Text="Accessibility" Style="{StaticResource ToiletCellSubtitle}"></TextBlock>
                 <TextBlock Margin="5,0,0,5" Text="{x:Bind AccessibleNote}" Visibility="{x:Bind AccessibleNote, Converter={StaticResource visibilityConverter}}" TextWrapping="WrapWholeWords"></TextBlock>
                 <TextBlock Margin="5,0,0,5">
                     <TextBlock.Inlines>
-                        <Run FontWeight="Bold" Text="Accessible: "></Run>
+                        <Run FontWeight="Bold" Text="Disabled: "></Run>
                         <Run Text="{x:Bind getAccessibilityStatus}"></Run>
                     </TextBlock.Inlines>
                 </TextBlock>
 
+                <TextBlock Margin="5,0,0,5" Visibility="{x:Bind AccessNote, Converter={StaticResource visibilityConverter}}" TextWrapping="WrapWholeWords">
+                    <TextBlock.Inlines>
+                        <Run FontWeight="Bold" Text="Access note: "></Run>
+                        <Run Text="{x:Bind AccessNote}"></Run>
+                    </TextBlock.Inlines>
+                </TextBlock>
 
 
             </StackPanel>
